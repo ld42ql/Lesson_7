@@ -7,8 +7,8 @@ namespace Task_6
     #endregion
     class Program
     {
-      static MyGraph randomGraph = new MyGraph(5);
-        static AlgorithmDijkstra algorithm;
+        static MyGraph randomGraph = new MyGraph(7);
+        static Shortcut Way;
 
         static void Main(string[] args)
         {
@@ -16,10 +16,12 @@ namespace Task_6
 
             WriteLine("\n");
 
-            algorithm = new AlgorithmDijkstra(randomGraph.Graph, 0);
-
-            algorithm.ViewGraph();
-
+            for (int i = 0; i < randomGraph.Graph.GetLength(0); i++)
+            {
+                Way = new Shortcut(randomGraph.Graph, i);
+                Way.ViewAllWayOnePoint();
+                WriteLine("\n");
+            }
             ReadKey();
         }
     }
