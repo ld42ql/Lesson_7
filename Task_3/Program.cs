@@ -21,6 +21,10 @@ namespace Task_3
             { 45,  x, 32,  x,  x,  x,  0}
         };
 
+        static MyGraph randomGraph = new MyGraph(7);
+
+        static Unit[,] unitsGraph = randomGraph.Graph;
+
         /// <summary>
         /// Написать рекурсивную функцию обхода графа в глубину
         /// </summary>
@@ -28,9 +32,9 @@ namespace Task_3
         {
             array[start, 0] += 1;
             array[start, 1] = 1;
-            for (int i = 0; i < graph.GetLength(0); i++)
+            for (int i = 0; i < unitsGraph.GetLength(0); i++)
             {
-                if (graph[start, i] != int.MaxValue && array[i, 1] == 0)
+                if (unitsGraph[start, i].weight != int.MaxValue && array[i, 1] == 0)
                 {
                     array[i, 0] = array[start, 0];
                     RoundDepth(ref array, i);
@@ -43,13 +47,19 @@ namespace Task_3
         /// </summary>
         static void RoundWitch(ref int[,] array, int start)
         {
-            array[start, 0] += 1;
-            array[start, 1] = 1;
-            for (int i = 0; i < graph.GetLength(0); i++)
+            for (int i = 0; i < unitsGraph.GetLength(0); i++)
             {
-                if (graph[start, i] != int.MaxValue && array[i, 1] == 0)
+                if (unitsGraph[start, i].weight != int.MaxValue && array[i, 1] == 0)
                 {
-                    RoundDepth(ref array, i);
+                    array[i, 0] = array[start, 0] + 1;
+                }
+            }
+            array[start, 1] = 1;
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                if (array[i, 1] == 0)
+                {
+                    RoundWitch(ref array, i);
                 }
             }
         }
@@ -59,7 +69,37 @@ namespace Task_3
             int[,] array = new int[graph.GetLength(0), 2];
             int depth = int.MinValue;
 
-            RoundDepth(ref array, 0);
+            //RoundDepth(ref array, 0);
+
+            //for (int i = 0; i < array.GetLength(0); i++)
+            //{
+            //    if (array[i, 0] > depth)
+            //    {
+            //        depth = array[i, 0];
+            //    }
+            //}
+
+            //WriteLine($"Глубина графа = {depth}");
+
+
+            //array = new int[graph.GetLength(0), 2];
+            //depth = int.MinValue;
+
+            //RoundWitch(ref array, 0);
+
+            //for (int i = 0; i < array.GetLength(0); i++)
+            //{
+            //    if (array[i, 0] > depth)
+            //    {
+            //        depth = array[i, 0];
+            //    }
+            //}
+
+            //WriteLine($"Ширина графа = {depth}");
+
+            randomGraph.ViewGraph();
+
+             RoundDepth(ref array, 0);
 
             for (int i = 0; i < array.GetLength(0); i++)
             {
@@ -70,8 +110,7 @@ namespace Task_3
             }
 
             WriteLine($"Глубина графа = {depth}");
-
-            ReadKey();
+             
 
             array = new int[graph.GetLength(0), 2];
             depth = int.MinValue;
